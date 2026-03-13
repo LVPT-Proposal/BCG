@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>BCG Poker Strategy Experience</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;600&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+  <!-- baguetteBox CSS -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/baguettebox.js/1.11.1/baguetteBox.min.css">
+
+  <style>
+    /* GLOBAL */
+    body {
+      margin: 0;
+      font-family: 'Inter', sans-serif;
+      background: #f6f8f7;
+      color: #1a1a1a;
+      line-height: 1.6;
+    }
+    section {
+      padding: 80px 8%;
+      max-width: 1300px;
+      margin: auto;
+    }
+    h1, h2, h3 {
+      font-family: 'Oswald', sans-serif;
+    }
+    h1 {
+      font-size: 58px;
+    }
+    h2 {
+      font-size: 36px;
+      color: #147B58;
+      margin-bottom: 20px;
+    }
+    p {
+      font-size: 18px;
+      line-height: 30px;
+    }
+
+    /* HERO */
+    .hero {
+      height: 85vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      background: linear-gradient(rgba(0,0,0,.55), rgba(0,0,0,.55)), url("VENETIAN-HERO.jpg");
+      background-size: cover;
+      background-position: center;
+      color: white;
+      line-height: 57px;
+    }
+    .logo-placeholder {
+      width: 220px;
+      height: 90px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: auto;
+      margin-bottom: 20px;
+    }
+    .logo-placeholder img {
+  max-width: 300%;
+  max-height: 300%;
+  object-fit: contain;
+}
+
+    /* INTRO */
+    .intro {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 60px;
+      align-items: center;
+    }
+    .intro img {
+      width: 100%;
+      border-radius: 10px;
+    }
+
+    /* STRATEGY LIST */
+    .strategy-list {
+      padding-left: 20px;
+      margin-top: 20px;
+    }
+    .strategy-list li {
+      margin-bottom: 12px;
+      font-size: 18px;
+    }
+
+    /* BCG MATRIX */
+    .bcg-section {
+      text-align: center;
+    }
+    .bcg-intro {
+      max-width: 750px;
+      margin: auto;
+      margin-bottom: 40px;
+    }
+    .matrix-wrapper {
+      position: relative;
+      max-width: 800px;
+      margin: auto;
+    }
+    .axis-y {
+      position: absolute;
+      left: -95px;
+      top: 50%;
+      transform: translateY(-50%) rotate(-90deg);
+      font-weight: 600;
+      color: #147B58;
+      white-space: nowrap;
+    }
+    .axis-x {
+      text-align: center;
+      margin-top: 15px;
+      font-weight: 600;
+      color: #147B58;
+    }
+    .bcg-matrix {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      grid-template-rows: 1fr 1fr;
+      border: 3px solid #147B58;
+      border-radius: 10px;
+      overflow: hidden;
+    }
+    .bcg-cell {
+      padding: 35px;
+      background: white;
+      transition: .3s;
+    }
+    .star { background: #eaf6f1; }
+    .question { background: #f3fbf7; }
+    .cow { background: #f9fbfa; }
+    .dog { background: #eef4f2; }
+    .bcg-cell h3 { color: #147B58; }
+    .bcg-cell:hover {
+      background: #147B58;
+      color: white;
+      transform: scale(1.03);
+    }
+    .bcg-cell:hover h3 { color: white; }
+
+    /* INSTRUCTORS */
+    .pros {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 40px;
+      margin-top: 40px;
+    }
+    .pro-card {
+      background: white;
+      border-radius: 10px;
+      box-shadow: 0 8px 20px rgba(0,0,0,.08);
+      padding: 20px;
+      text-align: center;
+    }
+    .pro-image {
+      width: 100%;
+      height: 260px;
+      object-fit: cover;
+      border-radius: 8px;
+      margin-bottom: 15px;
+      background: #ddd;
+    }
+
+    /* OPTIONS */
+    .options {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 30px;
+      margin-top: 40px;
+    }
+    .option-card {
+      background: white;
+      border-radius: 10px;
+      padding: 35px;
+      box-shadow: 0 6px 18px rgba(0,0,0,.08);
+    }
+    .price {
+      font-size: 40px;
+      color: #147B58;
+      margin: 10px 0;
+    }
+
+    /* CTA */
+    .cta {
+      background: #147B58;
+      color: white;
+      text-align: center;
+      padding: 70px 8%;
+    }
+    .cta h2 {
+      color: white;
+    }
+    .confirm-button {
+      display: inline-block;
+      padding: 16px 40px;
+      background: white;
+      color: #147B58;
+      font-weight: 600;
+      border-radius: 25px;
+      text-decoration: none;
+      transition: .25s;
+      margin-top: 20px;
+    }
+    .confirm-button:hover {
+      background: #f0f0f0;
+      transform: translateY(-2px);
+      box-shadow: 0 8px 18px rgba(0,0,0,.2);
+    }
+
+    /* SIMPLE GALLERY GRID (replaces all previous gallery code) */
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 20px;
+      margin-top: 30px;
+    }
+    .gallery-grid a {
+      display: block;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 8px 20px rgba(0,0,0,.1);
+      transition: transform 0.3s ease;
+    }
+    .gallery-grid a:hover {
+      transform: scale(1.02);
+    }
+    .gallery-grid img {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+      display: block;
+    }
+
+    /* RESPONSIVE FIXES FOR MATRIX */
+    @media (max-width: 700px) {
+      .axis-y {
+        position: static;
+        transform: none;
+        text-align: center;
+        margin-bottom: 10px;
+        font-size: 1.2rem;
+        white-space: normal;
+      }
+      .axis-x {
+        margin-top: 10px;
+        font-size: 1.2rem;
+      }
+      .bcg-matrix {
+        grid-template-columns: 1fr;
+        grid-template-rows: repeat(4, auto);
+      }
+      .bcg-cell {
+        padding: 20px;
+      }
+      .bcg-cell p {
+        font-size: 16px;
+      }
+    }
+
+    /* MOBILE (existing) */
+    @media (max-width: 900px) {
+      .intro { grid-template-columns: 1fr; }
+      .pros { grid-template-columns: 1fr; }
+      .options { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- HERO -->
+<section class="hero">
+  <div>
+    <div class="logo-placeholder">
+      <img src="https://assets.cdn.filesafe.space/E2BEbKIK8SvsJICq4vXY/media/69b35490e8487c2456596630.png" alt="BCG Logo">
+    </div>
+    <h1>Private Poker Strategy Experience</h1>
+    <p>"Consult The Cards" | April 1st | Venetian Poker Room | Las Vegas</p>
+  </div>
+</section>
+
+<!-- INTRO -->
+<section class="intro">
+  <div>
+    <h2>Strategy in Action</h2>
+    <p>Boston Consulting Group is known for helping organizations solve complex strategic challenges. Poker operates on many of the same principles.</p>
+    <ul class="strategy-list">
+      <li>Analyze incomplete information</li>
+      <li>Manage calculated risk</li>
+      <li>Interpret human behavior</li>
+      <li>Identify patterns and probabilities</li>
+      <li>Make strategic decisions under pressure</li>
+    </ul>
+    <p>For decades economists and strategists have studied poker because it mirrors real-world decision making. This experience transforms the poker table into a <strong>live strategy laboratory.</strong></p>
+  </div>
+  <img src="https://assets.cdn.filesafe.space/E2BEbKIK8SvsJICq4vXY/media/693b4f0f53781fe90d3419f1.webp" alt="Venetian Poker Room interior" loading="lazy">
+  <img src="https://assets.cdn.filesafe.space/E2BEbKIK8SvsJICq4vXY/media/693b4f0f21e2f3c0e95071a1.webp" alt="Venetian Poker Room interior" loading="lazy">
+  <img src="https://assets.cdn.filesafe.space/E2BEbKIK8SvsJICq4vXY/media/693b4f0fab48043423a82346.jpg" alt="Venetian Poker Room interior" loading="lazy">
+</section>
+
+<!-- BCG MATRIX -->
+<section class="bcg-section">
+  <h2>The Strategy Framework</h2>
+  <p class="bcg-intro">Consultants often use the BCG Matrix to evaluate business portfolios. Poker strategy works in remarkably similar ways.</p>
+  <div class="matrix-wrapper">
+    <div class="axis-y"><span>Market Growth</span> ↑</div>
+    <div class="bcg-matrix">
+      <div class="bcg-cell star">
+        <h3>Stars</h3>
+        <p>High confidence decisions where aggressive strategy produces maximum advantage.</p>
+      </div>
+      <div class="bcg-cell question">
+        <h3>Question Marks</h3>
+        <p>High opportunity but uncertain outcome requiring analytical thinking and calculated risk.</p>
+      </div>
+      <div class="bcg-cell cow">
+        <h3>Cash Cows</h3>
+        <p>Reliable situations where disciplined strategy extracts consistent value.</p>
+      </div>
+      <div class="bcg-cell dog">
+        <h3>Dogs</h3>
+        <p>Low probability scenarios where the optimal decision is to conserve resources and fold.</p>
+      </div>
+    </div>
+    <div class="axis-x"><span>Market Share</span> →</div>
+  </div>
+</section>
+
+<!-- INSTRUCTORS -->
+<section>
+  <h2>Your Professional Instructors</h2>
+  <div class="pros">
+    <div class="pro-card">
+      <img class="pro-image" src="https://assets.cdn.filesafe.space/E2BEbKIK8SvsJICq4vXY/media/69329adbe0f092644fb65b71.jpg" alt="Kenna James" loading="lazy">
+      <h3>Kenna James</h3>
+      <p>WSOP Bracelet Winner<br>$6M+ Tournament Earnings<br>Poker Commentator</p>
+    </div>
+    <div class="pro-card">
+      <img class="pro-image" src="https://assets.cdn.filesafe.space/E2BEbKIK8SvsJICq4vXY/media/694497c2e78870ea91447991.png" alt="Jeff Madsen" loading="lazy">
+      <h3>Jeff Madsen</h3>
+      <p>4× WSOP Bracelet Winner<br>Youngest WSOP Champion Ever<br>$6M+ Career Earnings</p>
+    </div>
+    <div class="pro-card">
+      <img class="pro-image" src="https://assets.cdn.filesafe.space/E2BEbKIK8SvsJICq4vXY/media/69b35c69222c3307b3295616.webp" alt="Nick Pupillo" loading="lazy">
+      <h3>Nick Pupillo</h3>
+      <p>WSOP Bracelet Winner<br>WPT Champion<br>$6M+ Career Earnings</p>
+    </div>
+  </div>
+</section>
+
+<!-- OPTIONS -->
+<section>
+  <h2>Experience Options</h2>
+  <div class="options">
+    <div class="option-card">
+      <h3>Full Experience</h3>
+      <div class="price">$6,025</div>
+      <ul>
+        <li>2-hour poker training session</li>
+        <li>Venetian Poker Room</li>
+        <li>Street taco bar</li>
+        <li>Private drink bar</li>
+        <li>Hostess / bartender</li>
+      </ul>
+    </div>
+    <div class="option-card">
+      <h3>Signature Experience</h3>
+      <div class="price">$5,500</div>
+      <ul>
+        <li>2-hour poker training</li>
+        <li>Private drink bar</li>
+        <li>Hostess / bartender</li>
+      </ul>
+    </div>
+    <div class="option-card">
+      <h3>Classic Poker</h3>
+      <div class="price">$4,525</div>
+      <ul>
+        <li>2-hour poker training</li>
+        <li>Professional instructor</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- SIMPLE LIGHTBOX GALLERY -->
+<section>
+  <h2>Corporate Experiences</h2>
+  <div class="gallery-grid" id="gallery">
+    <a href="https://assets.cdn.filesafe.space/E2BEbKIK8SvsJICq4vXY/media/677637c410dd0d5b0f8c899b.jpeg" data-caption="Corporate Private Dining">
+      <img src="https://assets.cdn.filesafe.space/E2BEbKIK8SvsJICq4vXY/media/677637c410dd0d5b0f8c899b.jpeg" alt="Corporate Private Dining" loading="lazy">
+    </a>
+    <a href="https://assets.cdn.filesafe.space/E2BEbKIK8SvsJICq4vXY/media/679d4211387caa61facbde2f.png" data-caption="Corporate Privae Suite">
+      <img src="https://assets.cdn.filesafe.space/E2BEbKIK8SvsJICq4vXY/media/679d4211387caa61facbde2f.png" alt="" loading="lazy">
+    </a>
+    <a href="https://assets.cdn.filesafe.space/E2BEbKIK8SvsJICq4vXY/media/67763a3ace41a6edba7e0f12.png" data-caption="Corporate Mens Retreat">
+      <img src="https://assets.cdn.filesafe.space/E2BEbKIK8SvsJICq4vXY/media/67763a3ace41a6edba7e0f12.png" alt="Corporate Event 3" loading="lazy">
+    </a>
+    <a href="https://assets.cdn.filesafe.space/E2BEbKIK8SvsJICq4vXY/media/69329429e0f0927468b5af13.jpg" data-caption="Corporate Banquet Space">
+      <img src="https://assets.cdn.filesafe.space/E2BEbKIK8SvsJICq4vXY/media/69329429e0f0927468b5af13.jpg" alt="Corporate Event 4" loading="lazy">
+    </a>
+    <a href="https://assets.cdn.filesafe.space/E2BEbKIK8SvsJICq4vXY/media/69b34f27222c3354cc26fe56.png" data-caption="Corporate Event 5">
+      <img src="https://assets.cdn.filesafe.space/E2BEbKIK8SvsJICq4vXY/media/69b34f27222c3354cc26fe56.png" alt="Corporate Event 5" loading="lazy">
+    </a>
+    <a href="https://assets.cdn.filesafe.space/E2BEbKIK8SvsJICq4vXY/media/69329adb1d466e5f44c4fd90.jpg" data-caption="Corporate Girl Power">
+      <img src="https://assets.cdn.filesafe.space/E2BEbKIK8SvsJICq4vXY/media/69329adb1d466e5f44c4fd90.jpg" alt="Corporate Event 6" loading="lazy">
+    </a>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta">
+  <h2>We look forward to hosting BCG for a strategic Las Vegas experience.</h2>
+  <p>Confirm your preferred package to secure your April 1st session.</p>
+  <a class="confirm-button" href="mailto:matt@lasvegaspokertraining.com?subject=BCG Poker Training Booking&body=Hi Matt,%0D%0A%0D%0AWe are ready to move forward with the Venetian Poker Room booking and would like to receive the invoice.%0D%0A%0D%0AThanks,%0D%0ABCG Team">Confirm Experience</a>
+  <p style="margin-top:30px">If The Venetian Poker Room does not work for the group, we can also host the experience at several alternative locations including: Las Vegas Distillery, a private suite at ARIA, or private dining rooms at several nearby restaurants.</p>
+</section>
+
+<!-- baguetteBox JS -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/baguettebox.js/1.11.1/baguetteBox.min.js"></script>
+<script>
+  baguetteBox.run('#gallery', {
+    captions: true,
+    buttons: 'auto',
+    animation: 'slideIn'
+  });
+</script>
+
+<!-- If images don't appear, verify the file paths. For testing, you can replace src with placeholders:
+     e.g., src="https://placehold.co/600x400/147B58/white?text=Event+1" -->
+</body>
+</html>
